@@ -142,6 +142,7 @@
 ```bash
 customer-churn-retention-analytics/
 ├── README.md                                  # Executive Case Study & Analysis
+├── requirements.txt                           # Core environment dependencies
 ├── .gitignore                                 # Git configuration (ignores raw CSVs & local notes)
 ├── src/                                       # Core Analytics Scripts (Interactive Cells # %%)
 │   ├── 01_subscription_churn_analysis.py     # Telco Churn & Revenue Forensics
@@ -164,11 +165,19 @@ customer-churn-retention-analytics/
 ```
 
 ### Reproduction Steps:
-1. Ensure `Telco-Customer-Churn.csv` and `Online_Retail.csv` are in the project root directory.
-2. Run interactively in VS Code (with `# %%` cells) or execute via terminal:
-   - Subscription Forensics: `python src/01_subscription_churn_analysis.py`
-   - Cohort & RFM Engine: `python src/02_ecommerce_cohort_rfm.py`
-3. Review generated executive figures in `output/figures/`.
+
+1. **Environment Setup:** Install verified dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. **Data Sources:** Download public datasets and place them in the project root directory:
+   * **Telco Churn Dataset (7,043 records):** [Kaggle - Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+   * **Online Retail Dataset (541,909 records):** [UCI Machine Learning Repository - Online Retail](https://archive.ics.uci.edu/dataset/352/online+retail)
+3. **Execute Analytics:**
+   * Run interactively in VS Code using `# %%` interactive cells, or execute via terminal:
+     - Subscription Forensics: `python src/01_subscription_churn_analysis.py`
+     - Cohort & RFM Engine: `python src/02_ecommerce_cohort_rfm.py`
+4. Review generated executive figures in `output/figures/` and exported summaries in `output/tables/`.
 
 ---
 *Author: Lead Insight Analyst (CosmicAuchitya)*
