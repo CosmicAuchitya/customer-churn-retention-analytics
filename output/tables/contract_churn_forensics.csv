@@ -1,4 +1,4 @@
-Contract,total_accounts,churned_accounts,churn_rate,monthly_revenue_at_risk,avg_monthly_charge,share_of_customer_base_pct,share_of_total_churn_pct,annual_arr_lost
-Month-to-month,3875,1655,42.71,120847.1,66.39849032258064,55.02,88.55,1450165.2000000002
-One year,1473,166,11.27,14118.45,65.04860828241684,20.91,8.88,169421.40000000002
-Two year,1695,48,2.83,4165.3,60.770412979351036,24.07,2.57,49983.600000000006
+Contract,Total_Customers,Churned_Customers,Avg_Monthly_Bill,Churn_Rate_%,Monthly_Revenue_Lost_$,Share_of_Total_Churn_%,Annual_ARR_Lost_$
+Month-to-month,3875,1655,66.4,42.71,120847.1,88.55,1450165.2
+One year,1473,166,65.05,11.27,14118.45,8.88,169421.4
+Two year,1695,48,60.77,2.83,4165.3,2.57,49983.6

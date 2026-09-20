@@ -4,24 +4,38 @@ Dataset: Online Retail Transaction Logs (541,909 records)
 
 Analysis of customer lifecycle dynamics, 12-month cohort retention decay,
 and value-based customer segmentation (Recency, Frequency, Monetary).
+Generates Exhibits 4 and 5 in output/figures/.
 """
 
 # %%
+# Cell 1: E-Commerce Transaction Data Ingestion
 import os
 import datetime as dt
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Resolve data path whether executing from repo root or analysis folder
-data_path = 'Online_Retail.csv' if os.path.exists('Online_Retail.csv') else os.path.join('..', 'Online_Retail.csv')
-df_raw = pd.read_csv(data_path, encoding='ISO-8859-1')
+# Ensure output directories exist
+os.makedirs('output/figures', exist_ok=True)
+os.makedirs('output/tables', exist_ok=True)
 
+# Aesthetic styling
+plt.style.use('seaborn-v0_8-whitegrid')
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica']
+
+# Resolve data path whether executing from repo root or src folder
+data_path = 'Online_Retail.csv' if os.path.exists('Online_Retail.csv') else os.path.join('..', 'Online_Retail.csv')
+fig_dir = 'output/figures' if os.path.exists('output') else os.path.join('..', 'output', 'figures')
+tbl_dir = 'output/tables' if os.path.exists('output') else os.path.join('..', 'output', 'tables')
+
+df_raw = pd.read_csv(data_path, encoding='ISO-8859-1')
 print(f"Raw transaction logs loaded: {len(df_raw):,} rows, {df_raw.shape[1]} columns")
 print(df_raw.head(5))
 
 # %%
-# Data Hygiene: Address guest checkouts and return transactions
+# Cell 2: Data Hygiene - Guest Checkouts & Cancellations
 # 1. Unauthenticated guest checkouts (missing CustomerID) cannot be tracked longitudinally
 missing_customers = df_raw['CustomerID'].isna().sum()
 print(f"Guest transactions without CustomerID: {missing_customers:,} ({missing_customers/len(df_raw)*100:.2f}%)")
@@ -40,11 +54,11 @@ print(f"Cleaned purchase logs: {len(df):,} transactions ({len(df)/len(df_raw)*10
 print(f"Unique tracked customer accounts: {df['CustomerID'].nunique():,}")
 
 # %%
-# Cohort Assignment: Map acquisition cohorts and elapsed active months
+# Cell 3: Cohort Assignment & Index Calculation
 df['InvoiceDate'] = pd.to_datetime(df['InvoiceDate'])
 df['InvoiceMonth'] = df['InvoiceDate'].dt.to_period('M')
 
-# Identify the acquisition month (first purchase) for each customer
+# Identify acquisition month (first purchase) for each customer
 df['CohortMonth'] = df.groupby('CustomerID')['InvoiceMonth'].transform('min')
 
 # Calculate CohortIndex (months elapsed since initial acquisition)
@@ -56,7 +70,7 @@ print("Sample customer cohort mapping:")
 print(df[['CustomerID', 'InvoiceDate', 'InvoiceMonth', 'CohortMonth', 'CohortIndex']].head(8))
 
 # %%
-# Cohort Retention Matrix: Compute monthly returning percentage per cohort
+# Cell 4: Cohort Retention Matrix & Exhibit 4 (The Retention Triangle Heatmap)
 cohort_data = df.groupby(['CohortMonth', 'CohortIndex'])['CustomerID'].nunique().reset_index()
 cohort_counts = cohort_data.pivot(index='CohortMonth', columns='CohortIndex', values='CustomerID')
 
@@ -64,40 +78,45 @@ cohort_counts = cohort_data.pivot(index='CohortMonth', columns='CohortIndex', va
 cohort_sizes = cohort_counts.iloc[:, 0]
 retention_matrix = cohort_counts.divide(cohort_sizes, axis=0) * 100
 
+# Format index as clean YYYY-MM string
+retention_matrix.index = retention_matrix.index.strftime('%Y-%m')
+
+# Filter to standard 12 cohorts (Dec 2010 to Nov 2011) to view full triangle
+retention_matrix_clean = retention_matrix.iloc[:13, :13]
+
 print("=== COHORT BASE SIZES (Month 0 Customer Volume) ===")
 print(cohort_sizes)
 
 print("\n=== COHORT RETENTION MATRIX (% Active Returning) ===")
-print(retention_matrix.round(1).iloc[:6, :7])
+print(retention_matrix_clean.round(1).iloc[:6, :7])
+retention_matrix_clean.round(1).to_csv(os.path.join(tbl_dir, 'cohort_retention_matrix.csv'))
 
-# %%
-# Visualizing Cohort Retention Decay (The Retention Triangle Heatmap)
-plt.figure(figsize=(15, 8))
-plt.title('12-Month Cohort Retention Triangle (% Customers Returning)', fontsize=14, fontweight='bold', pad=15)
+# Exhibit 4: 12-Month Cohort Retention Triangle Heatmap
+plt.figure(figsize=(14, 8), dpi=300)
+mask = retention_matrix_clean.isnull()
 
-# Mask unpopulated upper-right cells
-mask = retention_matrix.isnull()
-
-sns.heatmap(
-    data=retention_matrix,
-    annot=True,
-    fmt='.1f',
-    cmap='YlGnBu',
-    vmin=0,
-    vmax=50,
+ax = sns.heatmap(
+    retention_matrix_clean,
     mask=mask,
-    cbar_kws={'label': 'Retention Rate (%)'}
+    annot=True,
+    fmt='.0f',
+    cmap='Blues',
+    vmin=10,
+    vmax=50,
+    cbar_kws={'label': 'Customer Retention Rate (%)'},
+    linewidths=0.5,
+    linecolor='#ffffff'
 )
-
-plt.ylabel('Cohort Acquisition Month', fontsize=12)
-plt.xlabel('Cohort Index (Months Elapsed Since First Purchase)', fontsize=12)
-plt.yticks(rotation=0)
+plt.title('12-MONTH COHORT RETENTION TRIANGLE (E-COMMERCE):\nMonth 1 Drop-off (62% Churn) Flattens to a ~25% Loyal Customer Core',
+          fontsize=13, fontweight='heavy', pad=15, color='#0f172a')
+plt.xlabel('Cohort Retention Month (Months Since First Purchase)', fontsize=11, fontweight='bold', labelpad=10, color='#334155')
+plt.ylabel('First Acquisition Cohort (YYYY-MM)', fontsize=11, fontweight='bold', labelpad=10, color='#334155')
 plt.tight_layout()
+plt.savefig(os.path.join(fig_dir, '04_cohort_retention_heatmap.png'), bbox_inches='tight')
 plt.show()
 
 # %%
-# RFM Metrics Calculation
-# Use the day following the latest transaction as the fixed reference analysis point
+# Cell 5: Customer-Level RFM Metrics Calculation
 reference_date = df['InvoiceDate'].max() + dt.timedelta(days=1)
 
 rfm = df.groupby('CustomerID').agg(
@@ -114,8 +133,7 @@ print("\nSample RFM profiles:")
 print(rfm.head(5).round(2))
 
 # %%
-# RFM Scoring & Segment Categorization
-# Quartile binning: R inverted (lower days = higher score), F and M standard (higher = higher score)
+# Cell 6: RFM Scoring, Segmentation & Exhibit 5 (Pareto Value Distribution)
 rfm['R_Score'] = pd.qcut(rfm['Recency'], 4, labels=[4, 3, 2, 1]).astype(int)
 rfm['F_Score'] = pd.qcut(rfm['Frequency'].rank(method='first'), 4, labels=[1, 2, 3, 4]).astype(int)
 rfm['M_Score'] = pd.qcut(rfm['Monetary'], 4, labels=[1, 2, 3, 4]).astype(int)
@@ -141,46 +159,50 @@ rfm['Segment'] = rfm.apply(assign_segment, axis=1)
 
 # Executive Segment Summary
 rfm_summary = rfm.groupby('Segment').agg(
-    Customers=('CustomerID', 'count'),
-    Avg_Recency_Days=('Recency', 'mean'),
-    Avg_Orders=('Frequency', 'mean'),
-    Total_Revenue=('Monetary', 'sum'),
-    Avg_Spend_LTV=('Monetary', 'mean')
+    customers=('CustomerID', 'count'),
+    avg_recency_days=('Recency', 'mean'),
+    avg_frequency_orders=('Frequency', 'mean'),
+    total_revenue=('Monetary', 'sum'),
+    avg_monetary_ltv=('Monetary', 'mean')
 ).reset_index()
 
-total_rev = rfm_summary['Total_Revenue'].sum()
-total_cust = rfm_summary['Customers'].sum()
+total_rev = rfm_summary['total_revenue'].sum()
+total_cust = rfm_summary['customers'].sum()
 
-rfm_summary['Customer_Share_%'] = (rfm_summary['Customers'] / total_cust) * 100
-rfm_summary['Revenue_Share_%'] = (rfm_summary['Total_Revenue'] / total_rev) * 100
-rfm_summary = rfm_summary.sort_values(by='Revenue_Share_%', ascending=False)
+rfm_summary['customer_share_pct'] = round((rfm_summary['customers'] / total_cust) * 100, 2)
+rfm_summary['revenue_share_pct'] = round((rfm_summary['total_revenue'] / total_rev) * 100, 2)
+rfm_summary = rfm_summary.sort_values(by='revenue_share_pct', ascending=False)
 
 print("=== RFM EXECUTIVE SEGMENTATION SUMMARY ===")
-print(rfm_summary[['Segment', 'Customers', 'Customer_Share_%', 'Total_Revenue', 'Revenue_Share_%', 'Avg_Recency_Days', 'Avg_Spend_LTV']].round(2))
+print(rfm_summary[['Segment', 'customers', 'customer_share_pct', 'total_revenue', 'revenue_share_pct', 'avg_recency_days', 'avg_monetary_ltv']].round(2))
+rfm_summary.to_csv(os.path.join(tbl_dir, 'rfm_segments_summary.csv'), index=False)
 
-# %%
-# Visualizing Pareto Value Concentration
-melted_summary = rfm_summary.melt(
-    id_vars='Segment',
-    value_vars=['Customer_Share_%', 'Revenue_Share_%'],
-    var_name='Metric',
-    value_name='Percentage'
-)
+# Exhibit 5: RFM Segments Revenue Contribution vs Customer Share Visual
+fig, ax1 = plt.subplots(figsize=(12, 5.5), dpi=300)
 
-plt.figure(figsize=(13, 6))
-sns.barplot(
-    data=melted_summary,
-    x='Segment',
-    y='Percentage',
-    hue='Metric',
-    palette=['#6baed6', '#3182bd']
-)
+y_pos = np.arange(len(rfm_summary))
+height = 0.35
 
-plt.title('Customer Share vs Revenue Share by RFM Segment (Pareto Principle)', fontsize=14, fontweight='bold', pad=15)
-plt.ylabel('Percentage (%)', fontsize=12)
-plt.xlabel('Customer Segment', fontsize=12)
-plt.xticks(rotation=15, ha='right', fontsize=10)
-plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.legend(title='Metric', frameon=True)
+bars1 = ax1.barh(y_pos - height/2, rfm_summary['customer_share_pct'], height, label='% Customer Share', color='#cbd5e1', edgecolor='#0f172a', linewidth=0.8)
+bars2 = ax1.barh(y_pos + height/2, rfm_summary['revenue_share_pct'], height, label='% Total Revenue Share', color='#2563eb', edgecolor='#0f172a', linewidth=0.8)
+
+ax1.set_yticks(y_pos)
+ax1.set_yticklabels(rfm_summary['Segment'], fontsize=10, fontweight='bold', color='#0f172a')
+ax1.invert_yaxis()
+ax1.set_xlabel('Percentage Share (%)', fontsize=11, fontweight='bold', color='#334155')
+ax1.set_title('RFM SEGMENTATION: 37% Champions & Loyal Regulars Generate 78% of Total Platform Revenue (Pareto Principle)',
+              fontsize=12, fontweight='heavy', pad=15, color='#0f172a')
+ax1.legend(loc='lower right', frameon=True)
+ax1.set_xlim(0, 70)
+
+for bar in bars1:
+    w = bar.get_width()
+    ax1.text(w + 0.8, bar.get_y() + bar.get_height()/2.0, f"{w:.1f}%", ha='left', va='center', fontsize=9, color='#475569')
+
+for bar in bars2:
+    w = bar.get_width()
+    ax1.text(w + 0.8, bar.get_y() + bar.get_height()/2.0, f"{w:.1f}%", ha='left', va='center', fontsize=9, fontweight='bold', color='#1d4ed8')
+
 plt.tight_layout()
+plt.savefig(os.path.join(fig_dir, '05_rfm_customer_segments.png'), bbox_inches='tight')
 plt.show()
