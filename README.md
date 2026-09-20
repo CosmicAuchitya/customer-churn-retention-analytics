@@ -140,44 +140,36 @@
 ## 📁 Repository Structure & Reproduction Guide
 
 ```bash
-Project_2_Customer_Churn_Retention/
+customer-churn-retention-analytics/
 ├── README.md                                  # Executive Case Study & Analysis
-├── PROJECT_2_MASTER_INSIGHTS_LOG.md          # Numerical Master Register
-├── analysis/                                  # Interactive Exploratory Workbooks (VS Code)
-│   ├── my_churn_analysis.py                   # Step-by-step Subscription Churn Forensics
-│   └── my_cohort_rfm.py                       # Step-by-step Cohort Triangle & RFM Engine
-├── src/                                       # Production Pipeline Codebase
-│   ├── 01_subscription_churn_forensics.py    # Telco Churn & Revenue Modeling
-│   └── 02_cohort_retention_and_rfm.py         # Cohort Triangle & RFM Engine
-├── output/
-│   ├── figures/                               # High-Res 300 DPI Figures
-│   │   ├── 01_contract_churn_and_revenue_risk.png
-│   │   ├── 02_fiber_optic_tech_support_paradox.png
-│   │   ├── 03_payment_method_friction.png
-│   │   ├── 04_cohort_retention_heatmap.png
-│   │   └── 05_rfm_customer_segments.png
-│   └── tables/                                # Exported Data CSVs
-│       ├── subscription_kpi_summary.csv
-│       ├── contract_churn_forensics.csv
-│       ├── fiber_optic_bundling_matrix.csv
-│       ├── payment_method_churn_analysis.csv
-│       ├── tenure_cohort_hazard.csv
-│       ├── cohort_retention_matrix.csv
-│       └── rfm_segments_summary.csv
-└── explanation/                               # Technical Blueprint & Interview Manual
-    ├── PROJECT_2_DEEP_DIVE_BLUEPRINT.md
-    └── PROJECT_2_DEEP_DIVE_BLUEPRINT.html
+├── .gitignore                                 # Git configuration (ignores raw CSVs & local notes)
+├── src/                                       # Core Analytics Scripts (Interactive Cells # %%)
+│   ├── 01_subscription_churn_analysis.py     # Telco Churn & Revenue Forensics
+│   └── 02_ecommerce_cohort_rfm.py            # Cohort Triangle & RFM Engine
+└── output/
+    ├── figures/                               # High-Res 300 DPI Figures
+    │   ├── 01_contract_churn_and_revenue_risk.png
+    │   ├── 02_fiber_optic_tech_support_paradox.png
+    │   ├── 03_payment_method_friction.png
+    │   ├── 04_cohort_retention_heatmap.png
+    │   └── 05_rfm_customer_segments.png
+    └── tables/                                # Exported Data CSVs
+        ├── subscription_kpi_summary.csv
+        ├── contract_churn_forensics.csv
+        ├── fiber_optic_bundling_matrix.csv
+        ├── payment_method_churn_analysis.csv
+        ├── tenure_cohort_hazard.csv
+        ├── cohort_retention_matrix.csv
+        └── rfm_segments_summary.csv
 ```
 
 ### Reproduction Steps:
 1. Ensure `Telco-Customer-Churn.csv` and `Online_Retail.csv` are in the project root directory.
-2. Run interactive cells in VS Code:
-   - Open `analysis/my_churn_analysis.py` and execute cells (`# %%`).
-   - Open `analysis/my_cohort_rfm.py` and execute cells (`# %%`).
-3. Or execute batch production scripts:
-   - `python src/01_subscription_churn_forensics.py`
-   - `python src/02_cohort_retention_and_rfm.py`
-4. Review generated executive figures in `output/figures/`.
+2. Run interactively in VS Code (with `# %%` cells) or execute via terminal:
+   - Subscription Forensics: `python src/01_subscription_churn_analysis.py`
+   - Cohort & RFM Engine: `python src/02_ecommerce_cohort_rfm.py`
+3. Review generated executive figures in `output/figures/`.
 
 ---
 *Author: Lead Insight Analyst (CosmicAuchitya)*
+

@@ -7,3 +7,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 .ipynb_checkpoints/
+
+# Local Interview & Prep Notes
+explanation/
+PROJECT_2_MASTER_INSIGHTS_LOG.md
+
