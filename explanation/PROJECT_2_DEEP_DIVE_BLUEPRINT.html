@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 2: Churn Forensics & Cohort Retention Blueprint</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 0.5in;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #f8fafc;
+      line-height: 1.5;
+      font-size: 10pt;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .no-print-bar {
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 12px 20px;
+      margin-bottom: 25px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .no-print-bar button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 9.5pt;
+    }
+    .no-print-bar button:hover {
+      background: #1d4ed8;
+    }
+    header {
+      border-bottom: 3px solid #0f172a;
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+    h1 {
+      font-size: 20pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      font-size: 11pt;
+      color: #475569;
+      font-weight: 600;
+    }
+    h2 {
+      font-size: 13pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 6px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
+    p {
+      margin-bottom: 10px;
+      color: #334155;
+    }
+    .card-mindset {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 15px;
+    }
+    .card-mindset h4 {
+      color: #1e40af;
+      font-size: 10pt;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .card-script {
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-top: 15px;
+      margin-bottom: 20px;
+    }
+    .card-script h4 {
+      color: #15803d;
+      font-size: 10pt;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 14px;
+      border-radius: 6px;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 9pt;
+      line-height: 1.45;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+    code {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-size: 8.8pt;
+    }
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    ul {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+    li {
+      margin-bottom: 6px;
+      color: #334155;
+    }
+    li strong {
+      color: #0f172a;
+    }
+    @media print {
+      body {
+        background: white;
+      }
+      .container {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+      }
+      .no-print-bar {
+        display: none !important;
+      }
+      pre, .card-mindset, .card-script {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="no-print-bar">
+      <span>📘 <strong>Project 2: Churn Forensics &amp; Cohort Retention Blueprint</strong></span>
+      <button onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <header>
+      <h1>Customer Churn &amp; Cohort Retention Blueprint</h1>
+      <div class="subtitle">Complete Query Logic, Technical Thought Breakdown (Hinglish) &amp; Executive Interview Scripts (English)</div>
+    </header>
+
+    <!-- MODULE 0 -->
+    <section>
+      <h2>0. Data Hygiene &amp; The TotalCharges Anomaly</h2>
+      <div class="card-mindset">
+        <h4>🧠 Business &amp; Technical Mindset (Hinglish):</h4>
+        <p>Jab Telco dataset load kiya to <code>TotalCharges</code> column Object (String) type tha. Reason: 11 newly onboarded customers (tenure = 0) ke billing record mein space <code>" "</code> tha. Normal conversion crash ho jaata. Isliye <code>pd.to_numeric(errors='coerce')</code> se clean kiya aur 0.0 fill kiya.</p>
+      </div>
+      <div class="card-script">
+        <h4>🗣️ English Interview Script:</h4>
+        <p><em>"During initial data profiling, I uncovered an anomaly where <code>TotalCharges</code> was stored as an object due to whitespace entries across 11 records where <code>tenure = 0</code>. These represented newly onboarded subscribers whose first billing cycle had not yet matured. I resolved this via <code>pd.to_numeric(errors='coerce')</code> and zero imputation, safeguarding calculation accuracy."</em></p>
+      </div>
+    </section>
+
+    <!-- MODULE 1 -->
+    <section>
+      <h2>Module 1: The Month-to-Month Contract Death Trap</h2>
+      <div class="card-mindset">
+        <h4>🧠 Business Mindset (Hinglish):</h4>
+        <p><strong>Problem:</strong> Company har saal $1.67M ka ARR churn mein kho rahi hai.<br>
+        <strong>Finding:</strong> Month-to-month contracts customer base ka 55% hain, lekin <strong>88.55% of all platform churn</strong> yahi se aata hai ($1.45M ARR lost!). 2-year contract walo ka churn rate sirf 2.8% hai (15x stability multiplier!).</p>
+      </div>
+
+<pre><code>contract_df = df.groupby('Contract').agg(
+    total_accounts=('customerID', 'count'),
+    churn_rate=('Churn_Numeric', lambda x: round(x.mean() * 100, 2)),
+    monthly_revenue_at_risk=('MonthlyCharges', lambda x: df.loc[x.index][df.loc[x.index, 'Churn_Numeric'] == 1]['MonthlyCharges'].sum())
+).reset_index()
+
+contract_df['annual_arr_lost'] = contract_df['monthly_revenue_at_risk'] * 12</code></pre>
+
+      <div class="card-script">
+        <h4>🗣️ English Interview Script:</h4>
+        <p><em>"I evaluated churn distribution across contractual agreements. The data revealed a staggering 'Month-to-Month Death Trap': while month-to-month contracts represented 55% of the subscriber base, they drove 88.55% of all churn events, bleeding $1.45M in annual ARR at a 42.7% churn rate. Conversely, subscribers on two-year agreements exhibited an exceptional 2.8% churn rate (a 15x stability multiplier). I modeled an incentive strategy offering a $5 monthly discount to migrate month-to-month users into annual commitments, projecting a $230K net EBITDA preservation."</em></p>
+      </div>
+    </section>
+
+    <!-- MODULE 2 -->
+    <section>
+      <h2>Module 2: The Fiber Optic Paradox &amp; The Tech Support Moat</h2>
+      <div class="card-mindset">
+        <h4>🧠 Business Mindset (Hinglish):</h4>
+        <p><strong>The Paradox:</strong> Sabse premium product (Fiber Optic, $91.50/mo) ka churn rate sabse ganda (41.9%) tha!<br>
+        <strong>The Discovery:</strong> Jin Fiber Optic customers ke paas Tech Support aur Online Security add-on tha, unka churn rate <strong>55.0% se gir kar 14.2%</strong> ho gaya (-40.8 percentage points!), jabki unka monthly bill $105/mo tha! Customer price se nahi, support na milne par frustration se bhaag raha tha.</p>
+      </div>
+
+<pre><code>fiber_df['protection_bundle'] = np.where(
+    (fiber_df['TechSupport'] == 'Yes') &amp; (fiber_df['OnlineSecurity'] == 'Yes'),
+    'Full Security Bundle (Both Yes)',
+    np.where(
+        (fiber_df['TechSupport'] == 'No') &amp; (fiber_df['OnlineSecurity'] == 'No'),
+        'Zero Protection (Both No)',
+        'Partial Protection (One Yes)'
+    )
+)</code></pre>
+
+      <div class="card-script">
+        <h4>🗣️ English Interview Script:</h4>
+        <p><em>"I identified a critical counter-intuitive insight termed 'The Fiber Optic Paradox'. The company's highest-tier product, Fiber Optic, was experiencing a 41.9% churn rate despite commanding a $91.50 monthly ARPU. By cross-tabulating service add-ons, I uncovered 'The Tech Support Moat': Fiber Optic subscribers with zero protection churned at 55.0%, but when bundled with Tech Support and Online Security, churn plummeted to 14.2%, while monthly billings increased to $105.73. This proved that customers were not price-sensitive, but support-sensitive; packaging Tech Support directly into the base Fiber tier creates an immediate switching barrier."</em></p>
+      </div>
+    </section>
+
+    <!-- MODULE 3 -->
+    <section>
+      <h2>Module 3: Payment Psychology &amp; Cognitive Friction</h2>
+      <div class="card-mindset">
+        <h4>🧠 Business Mindset (Hinglish):</h4>
+        <p>Manual Electronic Check wale har mahine bill pay karte waqt 'Pain of Paying' feel karte hain, isliye unka churn rate <strong>45.3%</strong> hai ($1.01M ARR loss). Auto-pay (Credit Card / Bank Transfer) walon ka churn rate sirf <strong>15.2%</strong> hai (3x safer!).</p>
+      </div>
+
+      <div class="card-script">
+        <h4>🗣️ English Interview Script:</h4>
+        <p><em>"I analyzed payment infrastructure through a behavioral economics lens. Customers utilizing manual 'Electronic Checks' suffered an alarming 45.3% churn rate, accounting for 57.3% of all platform revenue loss ($1.01M ARR). In contrast, automated methods like Credit Card and Bank Transfer exhibited churn rates of only 15.2% and 16.7%. Automated billing eliminates the recurring 'Pain of Paying' cognitive friction, making auto-pay opt-in promotions a high-ROI retention lever."</em></p>
+      </div>
+    </section>
+
+    <!-- MODULE 4 -->
+    <section>
+      <h2>Module 4: 12-Month Cohort Retention Matrix (Triangular Heatmap)</h2>
+      <div class="card-mindset">
+        <h4>🧠 Business Mindset (Hinglish):</h4>
+        <p>5.4 Lakh retail transaction records par Month 0 se Month 12 ka retention triangle banaya. Result: Pehle 30 din mein 65%-80% customer drop ho jaate hain (Month 1 drop-off), lekin Month 3 ke baad curve <strong>~25% par flatten</strong> ho jaati hai (loyal customer core). Iska matlab company ka retention budget pehle 30 din ke onboarding flow mein lagana chahiye!</p>
+      </div>
+
+<pre><code>df['CohortMonth'] = df.groupby('CustomerID')['InvoiceMonth'].transform('min')
+df['CohortIndex'] = (invoice_year - cohort_year) * 12 + (invoice_month - cohort_month)
+cohort_counts = df.groupby(['CohortMonth', 'CohortIndex'])['CustomerID'].nunique().unstack()
+retention_matrix = cohort_counts.divide(cohort_counts.iloc[:, 0], axis=0) * 100</code></pre>
+
+      <div class="card-script">
+        <h4>🗣️ English Interview Script:</h4>
+        <p><em>"On the transactional retail dataset (540K+ records), I engineered a 12-month cohort retention matrix. After cleaning unauthenticated guest sessions and refund outliers, I established customer acquisition cohorts (`CohortMonth`) and calculated monthly retention indices (`CohortIndex = 0 to 12`). The resulting triangular heatmap demonstrated a classic steep drop-off at Month 1 (averaging 20.6% retention), which then stabilized into a remarkably consistent 24% to 26% loyal core through Month 12. This proved to leadership that retention interventions must occur within the first 30 days of onboarding before customer drop-off cements."</em></p>
+      </div>
+    </section>
+
+    <!-- MODULE 5 -->
+    <section>
+      <h2>Module 5: RFM Segmentation &amp; Pareto 80/20 Validation</h2>
+      <div class="card-mindset">
+        <h4>🧠 Business Mindset (Hinglish):</h4>
+        <p>Recency, Frequency aur Monetary value ke scores se 4,338 customers ko segment kiya. <strong>Pareto Principle validated:</strong> Top 37.2% customers (Champions + Loyal Regulars) platform ka <strong>77.6% revenue ($6.92M)</strong> laate hain! Saath hi 550 'At-Risk High Spenders' mile jinhone $912,863 kharch kiya tha par 84 din se gayab hain.</p>
+      </div>
+
+      <div class="card-script">
+        <h4>🗣️ English Interview Script:</h4>
+        <p><em>"I segmented 4,338 authenticated retail accounts using RFM analysis across quartiles. The analysis validated the classic Pareto principle: the top 37.2% of customers (Champions and Loyal Regulars) generated 77.6% of the platform's $8.9M lifetime revenue. Crucially, I isolated an 'At-Risk High Spenders' segment of 550 accounts who had spent over $912,000 historically but had gone dormant for an average of 84.4 days. I designed an automated high-touch concierge reactivation workflow, projected to recover up to $180,000 in recurring retail GMV."</em></p>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

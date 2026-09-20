@@ -1,0 +1,9 @@
+status,accounts,churn_rate,avg_monthly,feature
+No,2230,49.37,87.74278026905829,TechSupport
+Yes,866,22.63,101.17551963048498,TechSupport
+No,2257,49.36,88.63021710234825,OnlineSecurity
+Yes,839,21.81,99.22050059594756,OnlineSecurity
+No,1753,50.77,86.39107244723331,OnlineBackup
+Yes,1343,30.31,98.16891288160835,OnlineBackup
+No,1739,49.97,85.42788959171938,DeviceProtection
+Yes,1357,31.54,99.28172439204126,DeviceProtection

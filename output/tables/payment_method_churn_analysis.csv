@@ -1,0 +1,5 @@
+PaymentMethod,accounts,churn_count,churn_rate,avg_monthly,monthly_churn_loss,share_of_churn_pct,annual_arr_lost
+Electronic check,2365,1071,45.29,76.25581395348837,84288.75,57.3,1011465.0
+Mailed check,1612,308,19.11,43.91705955334988,16803.6,16.48,201643.19999999998
+Bank transfer (automatic),1544,258,16.71,67.19264896373056,20091.899999999998,13.8,241102.8
+Credit card (automatic),1522,232,15.24,66.5123850197109,17946.6,12.41,215359.19999999998

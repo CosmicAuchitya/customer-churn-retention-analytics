@@ -1,0 +1,10 @@
+Metric,Value,Unit
+Total Customer Base,"7,043",Accounts
+Retained Customers,"5,174",Accounts (73.46%)
+Churned Customers,"1,869",Accounts (26.54%)
+Total Platform MRR,"$456,116.60",Per Month
+Monthly MRR Lost to Churn,"$139,130.85",30.50% of MRR
+Annualized ARR Lost to Churn,"$1,669,570.20",Annual Run-Rate
+Avg Monthly Bill (Churned),$74.44,+21.5% higher than retained ($61.27)
+Avg Realized LTV (Churned),"$1,531.80",Short tenure truncation
+Avg Realized LTV (Retained),"$2,549.91",+66.8% LTV premium

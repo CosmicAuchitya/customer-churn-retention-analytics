@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 2: Churn & Cohort Retention Interview Defense Manual</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #f1f5f9;
+      line-height: 1.6;
+      font-size: 11pt;
+      padding: 30px 15px;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 45px 50px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+      border: 1px solid #e2e8f0;
+    }
+    h1 {
+      font-size: 24pt;
+      color: #0f172a;
+      margin-bottom: 8px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .subtitle {
+      font-size: 12pt;
+      color: #64748b;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 9pt;
+      font-weight: 600;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 15pt;
+      color: #0f172a;
+      margin-top: 36px;
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h3 {
+      font-size: 12pt;
+      color: #334155;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    p { margin-bottom: 12px; }
+    ul, ol { margin-left: 24px; margin-bottom: 14px; }
+    li { margin-bottom: 6px; }
+    .question-box {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 16px;
+      font-style: italic;
+      color: #1e40af;
+      font-weight: 500;
+    }
+    .metric-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .defense-box {
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      color: #15803d;
+      font-weight: 500;
+    }
+    .warning-box {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      color: #b45309;
+      font-weight: 500;
+    }
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px 18px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 9.5pt;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+    code {
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 9.5pt;
+      font-family: monospace;
+    }
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 20px 0;
+      font-size: 10pt;
+    }
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+    }
+    tr:hover { background: #f8fafc; }
+    strong { color: #0f172a; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Project 2: Interview Defense Manual</h1>
+    <div class="subtitle">
+      Customer Churn Forensics, Cohort Retention & RFM Segmentation (Dual Business Model Analysis)<br>
+      <strong>Candidate:</strong> Auchitya Singh | <strong>Target:</strong> Insight Analyst / Commercial Data Analyst
+    </div>
+
+    <div>
+      <span class="badge">Dual Business Models</span>
+      <span class="badge">Telco Subscriptions (7K Rows)</span>
+      <span class="badge">E-Commerce Transactions (540K Rows)</span>
+      <span class="badge">$1.67M ARR Risk</span>
+      <span class="badge">Pareto 77.6% / 37%</span>
+    </div>
+
+    <h2>1. Executive Mindset: Subscription vs. E-Commerce Model</h2>
+    <p>Interviews mein sabse pehla farq yahi poocha jata hai:</p>
+    <ul>
+      <li><strong>Contractual Subscription (Telco/Netflix):</strong> Explicit cancellation date hoti hai (<code>Churn = 1</code>). Customer jab cancel karta hai, company ko turant pata chal jata hai. Focus hota hai: <em>Monthly Churn Rate (%) aur Lost MRR/ARR ($)</em> par.</li>
+      <li><strong>Transactional E-Commerce (Amazon/Flipkart):</strong> Koi contract ya expiry date nahi hoti. Customer bina bataye khareedna band kar deta hai (Latent Churn). Focus hota hai: <em>Cohort Retention Triangle (decay curve) aur RFM Segmentation (Recency, Frequency, Monetary)</em> par.</li>
+    </ul>
+
+    <h2>2. Module 1: Data Hygiene & TotalCharges Bug</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? Data load karte hi TotalCharges column float hone ke bajaye Object (Text) kyu tha?
+    </div>
+    <pre><code># Empty string ko NaN banakar 0.0 se fill karna
+blank_charges = df[df['TotalCharges'].str.strip() == '']
+df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce').fillna(0.0)
+df['Churn_Numeric'] = (df['Churn'] == 'Yes').astype(int)</code></pre>
+    <p><strong>Reasoning:</strong> Dataset mein 11 records aise the jahan customer ne kal hi join kiya tha (<code>tenure == 0</code>) aur unka pehla bill generate nahi hua tha. Database ne space (<code>" "</code>) daal diya tha. Humne <code>pd.to_numeric(errors='coerce')</code> karke <code>fillna(0.0)</code> kiya taaki calculations mathematically accurate rahein.</p>
+    <div class="defense-box">
+      <strong>🗣️ Interview Defense Script:</strong><br>
+      "During initial data profiling, I identified 11 zero-tenure records where TotalCharges contained whitespace strings. Rather than dropping them or using mean imputation, I coerced them to float and imputed zero charges, preserving newly onboarded accounts."
+    </div>
+
+    <h2>3. Module 1: Baseline MRR & ARR Scorecard</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? Company ka churn se kitna dollar nuksan ho raha hai? CEO ko percentage nahi, Dollar value chahiye!
+    </div>
+    <div class="metric-card">
+      <ul>
+        <li><strong>Total Active Accounts:</strong> 7,043 Subscribers</li>
+        <li><strong>Total Monthly Revenue (MRR):</strong> $456,116.60 / month</li>
+        <li><strong>Monthly Revenue Lost:</strong> <strong>$139,130.85 / month (30.5% monthly revenue loss!)</strong></li>
+        <li><strong>Annual ARR at Risk:</strong> <strong>$1,669,570.20 / year (~$1.67 Million)</strong></li>
+        <li><strong>Churn Rate:</strong> 26.54% (1,869 accounts)</li>
+        <li><strong>Avg Bill of Churned Users:</strong> <strong>$74.44</strong> vs Retained <strong>$61.27</strong> (+21.5% higher! Company losing premium users).</li>
+      </ul>
+    </div>
+
+    <h2>4. Module 1: The Month-to-Month Contract Trap</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? Yeh $1.67M ka nuksan sabse zyada kis contract structure se leak ho raha hai?
+    </div>
+    <table>
+      <thead>
+        <tr><th>Contract Type</th><th>Total Accounts</th><th>Churned Accounts</th><th>Churn Rate (%)</th><th>Monthly Revenue Lost ($)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Month-to-month</strong></td><td>3,875</td><td>1,655</td><td><strong>42.71%</strong></td><td><strong>$120,847.10 / mo ($1.45M/yr)</strong></td></tr>
+        <tr><td><strong>One year</strong></td><td>1,473</td><td>166</td><td>11.27%</td><td>$14,118.45 / mo</td></tr>
+        <tr><td><strong>Two year</strong></td><td>1,695</td><td>48</td><td><strong>2.83%</strong></td><td>$4,165.30 / mo</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Core Insights:</strong></p>
+    <ul>
+      <li><strong>88.55% of all churn</strong> (1,655 out of 1,869) sirf Month-to-month contracts se aata hai.</li>
+      <li><strong>15x Stability Multiplier:</strong> Two-year contract wale 15 guna zyada loyal hain (2.83% vs 42.71%).</li>
+    </ul>
+
+    <h2>5. Module 1: The Fiber Optic Paradox & Tech Support Reality</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? Sabse mehengi service (Fiber Optic, $91.50/mo) ka churn rate itna zyada kyu tha (41.89%)?
+    </div>
+    <table>
+      <thead>
+        <tr><th>TechSupport Tier</th><th>Customers</th><th>Churn Count</th><th>Avg Bill ($)</th><th>Churn Rate (%)</th><th>Monthly Lost ($)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>No Tech Support</strong></td><td>2,230</td><td>1,101</td><td>$87.74</td><td><strong>49.37%</strong></td><td>$94,900.80</td></tr>
+        <tr><td><strong>With Tech Support</strong></td><td>866</td><td>196</td><td><strong>$101.18</strong></td><td><strong>22.63%</strong></td><td>$19,399.25</td></tr>
+      </tbody>
+    </table>
+    <div class="warning-box">
+      <strong>⚠️ Methodological Discipline (Kyu 'Free Support' Recommend NAHI Kiya?):</strong><br>
+      Data saaf dikhata hai ki Tech Support aane se churn aadhe se kam (49.4% to 22.6%) ho jata hai aur customer $13.44 premium dene ko taiyaar hain. Lekin humne "Sabko Free de do" bolne se mana kiya kyunki dataset mein <strong>Cost-to-Serve / Call-Center Support OpEx</strong> ka data nahi hai! Ek mature analyst bina cost jaane blanket free recommendation nahi deta. Humne suggest kiya: Support cost audit run karo aur ek subsidized bundle pilot ($92-$95) test karo.
+    </div>
+
+    <h2>6. Module 1: Payment Method Friction ("The Pain of Paying")</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? Payment mechanism se churn par kya asar padta hai?
+    </div>
+    <table>
+      <thead>
+        <tr><th>Payment Method</th><th>Customers</th><th>Churn Rate (%)</th><th>Monthly Revenue Lost ($)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Electronic check (Manual)</strong></td><td>2,365</td><td><strong>45.29%</strong></td><td><strong>$84,288.75 / mo ($1.01M ARR)</strong></td></tr>
+        <tr><td><strong>Mailed check (Manual)</strong></td><td>1,612</td><td>19.11%</td><td>$16,803.60 / mo</td></tr>
+        <tr><td><strong>Bank transfer (Automatic)</strong></td><td>1,544</td><td>16.71%</td><td>$20,091.90 / mo</td></tr>
+        <tr><td><strong>Credit card (Automatic)</strong></td><td>1,522</td><td><strong>15.24%</strong></td><td>$17,946.60 / mo</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Insight:</strong> Manual electronic check par 57.3% platform churn concentrate hai. Auto-Pay 3 guna safer hai. $5-$10 bill credit dekar Auto-Pay par migrate karwana high-ROI lever hai.</p>
+
+    <h2>7. Module 1: Early Tenure Hazard Curve</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? Customer kab chhod kar jata hai? Problem naye buyers mein hai ya purane buyers mein?
+    </div>
+    <div class="metric-card">
+      <ul>
+        <li><strong>0-12 Months (Year 1):</strong> 2,186 users | <strong>1,037 Churned (47.44%)</strong> | $68,954/mo Lost.</li>
+        <li><strong>49-72 Months (Years 5-6):</strong> 2,239 users | <strong>213 Churned (9.51%)</strong> | $19,632/mo Lost.</li>
+      </ul>
+      <p><strong>Takeaway:</strong> <strong>55.48% of all churn</strong> pehle 12 mahino ke andar hota hai! Retention problem onboarding aur first-year experience mein hai, long-term product mein nahi.</p>
+    </div>
+
+    <h2>8. Module 2: E-Commerce Data Cleaning (Guest Checkout Paradox)</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? 5.4 Lakh transaction records mein se 25% drop kyu karne pade?
+    </div>
+    <pre><code># Drop missing CustomerID and filter cancellations
+df = df_raw.dropna(subset=['CustomerID']).copy()
+df['CustomerID'] = df['CustomerID'].astype(int)
+df = df[~df['InvoiceNo'].str.startswith('C', na=False) & (df['Quantity'] > 0) & (df['UnitPrice'] > 0)].copy()
+df['TotalSpend'] = df['Quantity'] * df['UnitPrice']</code></pre>
+    <p><strong>Reasoning:</strong> 135,080 rows (24.93%) unauthenticated guest checkouts the jinhe longitudinal track nahi kiya ja sakta tha. 10,624 cancellations the. Bacha hua clean data: <strong>397,884 active purchase logs</strong> aur <strong>4,338 authenticated customers</strong>.</p>
+
+    <h2>9. Module 2: 12-Month Cohort Retention Matrix (The Triangle)</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? Har mahine aane wale naye customers agle 12 mahino mein kitne % wapas aate hain?
+    </div>
+    <ul>
+      <li><strong>The Month 1 Cliff:</strong> Month 0 par 100%, Month 1 mein drop hokar <strong>18% se 22%</strong> (~80% customer loss).</li>
+      <li><strong>The Loyal Core:</strong> Month 3 se 12 tak curve flat hokar <strong>22% se 26%</strong> par chalte rehta hai.</li>
+      <li><strong>Triangle Shape:</strong> December 2010 cohort 12 mahine track hota hai, November 2011 sirf 1 mahina. Isliye visual naturally triangle banta hai.</li>
+    </ul>
+
+    <h2>10. Module 2: RFM Customer Segmentation & Pareto 80/20 Rule</h2>
+    <div class="question-box">
+      Pehle Business Question Kya Tha? Top VIPs kitna revenue generate karte hain, aur kaun se bade buyers churn hone wale hain?
+    </div>
+    <table>
+      <thead>
+        <tr><th>Segment</th><th>Customers</th><th>Customer %</th><th>Total Revenue ($)</th><th>Revenue %</th><th>Avg Recency</th><th>Avg Spend ($)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Champions / VIPs</strong></td><td>664</td><td>15.31%</td><td><strong>$4,770,374.12</strong></td><td><strong>53.53%</strong></td><td>7.7 Days</td><td><strong>$7,184.30</strong></td></tr>
+        <tr><td><strong>Loyal Regulars</strong></td><td>948</td><td>21.85%</td><td><strong>$2,147,384.43</strong></td><td><strong>24.10%</strong></td><td>25.3 Days</td><td><strong>$2,265.17</strong></td></tr>
+        <tr><td><strong>At-Risk High Spenders</strong></td><td>550</td><td>12.68%</td><td><strong>$912,863.23</strong></td><td><strong>10.24%</strong></td><td><strong>84.37 Days</strong></td><td><strong>$1,659.75</strong></td></tr>
+        <tr><td><strong>Need Attention</strong></td><td>229</td><td>5.28%</td><td>$451,596.00</td><td>5.07%</td><td>214.7 Days</td><td>$1,972.03</td></tr>
+        <tr><td><strong>Hibernating / Lost</strong></td><td>1,371</td><td>31.60%</td><td>$443,620.30</td><td>4.98%</td><td>191.1 Days</td><td>$323.57</td></tr>
+        <tr><td><strong>Potential Loyalists</strong></td><td>576</td><td>13.28%</td><td>$185,569.82</td><td>2.08%</td><td>25.5 Days</td><td>$322.17</td></tr>
+      </tbody>
+    </table>
+    <div class="defense-box">
+      <strong>🎯 The 2 Hero Insights:</strong><br>
+      1. <strong>Pareto Principle Live:</strong> Top 37.16% customers (Champions + Loyal Regulars) generate <strong>77.63% of total revenue ($6.92M)</strong>.<br>
+      2. <strong>The $912K Churn Alarm:</strong> 550 At-Risk VIPs ne $912,863 kharch kiya tha, lekin 84.4 din se dormant hain. Dedicated white-glove win-back campaign se is revenue ko bachaaya ja sakta hai.
+    </div>
+
+    <h2>11. Core Discipline: Kahan Suggestion Diya Aur Kahan KYU NAHI Diya?</h2>
+    <ul>
+      <li><strong>Suggestion Diya:</strong> Auto-Pay migration incentive ($5-$10 bill credit), Year 1 Onboarding workflows, aur 550 At-Risk VIP win-back outreach. Yeh teeno directly data ke friction point se match karte hain aur inme zero inventory cost hai.</li>
+      <li><strong>Blanket Suggestion NAHI Diya:</strong> Fiber Optic par free tech support dena. Humne explain kiya ki dataset mein support operational cost (OpEx) nahi hai, isliye responsible analyst pehle cost audit aur pilot test recommend karta hai.</li>
+    </ul>
+
+    <hr style="margin-top: 30px; border: 0; border-top: 1px solid #cbd5e1;">
+    <p style="margin-top: 15px; font-size: 9pt; color: #64748b; text-align: center;">
+      Customer Churn & Cohort Retention Analytics | Prepared for High-Impact Product & Commercial Analyst Roles.
+    </p>
+  </div>
+</body>
+</html>

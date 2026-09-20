@@ -1,0 +1,9 @@
+# Raw large datasets
+Online_Retail.csv
+Telco-Customer-Churn.csv
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/

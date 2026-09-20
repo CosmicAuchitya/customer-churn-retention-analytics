@@ -1,0 +1,5 @@
+Tenure_Cohort,accounts,churn_count,churn_rate,mrr_loss,share_of_total_churn_pct
+0-12 Mos (Onboarding Risk),2186,1037,47.44,68954.25,55.48
+13-24 Mos (Early Stage),1024,294,28.71,23081.65,15.73
+25-48 Mos (Mature),1594,325,20.39,27462.5,17.39
+49-72 Mos (Loyal Base),2239,213,9.51,19632.450000000004,11.4
